@@ -1,80 +1,41 @@
 import React from "react";
-import {
-	View,
-	Text,
-	StyleSheet,
-	FlatList,
-	Button,
-	TouchableOpacity,
-} from "react-native";
+import { StyleSheet, FlatList } from "react-native";
 import CategoryMealsScreen from "./CategoryMealsScreen";
 
 import { CATEGORIES } from "../data/dummy-data";
 import Card from "../components/Card";
+import CategoryGridTile from "../components/CategoryGridTile";
 
 const CategoriesScreen = (props) => {
-	const renderGridItem = (itemData) => {
-		return (
-			<TouchableOpacity
-				onPress={() => {
-					props.navigation.navigate({
-						routeName: "CategoryMeals",
-						params: { categoryId: itemData.item.id },
-					});
-				}}
-				style={{
-					flex: 1,
-					margin: 10,
-				}}
-			>
-				<Card
-					style={{
-						height: 150,
-						backgroundColor: itemData.item.color,
-						justifyContent: "center",
-						alignItems: "center",
-					}}
-				>
-					<Text style={{ fontFamily: "roboto-medium", fontSize: 20 }}>
-						{itemData.item.title}
-					</Text>
-				</Card>
-			</TouchableOpacity>
-		);
-	};
+    const renderGridItem = (itemData) => {
+        return (
+            <CategoryGridTile
+                item={itemData.item}
+                onSelect={() =>
+                    props.navigation.navigate({
+                        routeName: "CategoryMeals",
+                        params: { categoryId: itemData.item.id },
+                    })
+                }
+            />
+        );
+    };
 
-	return (
-		<FlatList
-			//keyExtractor={(item, index) => item.id}
-			numColumns={2}
-			data={CATEGORIES}
-			renderItem={renderGridItem}
-		/>
-	);
-};
-
-CategoriesScreen.navigationOptions = {
-	headerShow: true,
-	headerTitle: "Meal Categories",
-	headerStyle: {
-		backgroundColor: "#ffc7ff",
-	},
-	headerTintColor: "black",
+    return (
+        <FlatList
+            contentContainerStyle={styles.screen}
+            //keyExtractor={(item, index) => item.id}
+            numColumns={2}
+            data={CATEGORIES}
+            renderItem={renderGridItem}
+        />
+    );
 };
 
 const styles = StyleSheet.create({
-	screen: {
-		flex: 1,
-		justifyContent: "center",
-		alignItems: "center",
-		backgroundColor: "#ff00ff88",
-	},
-
-	gridItem: {
-		flex: 1,
-		margin: 15,
-		height: 150,
-	},
+    screen: {
+        backgroundColor: "#000000",
+    },
 });
 
 export default CategoriesScreen;

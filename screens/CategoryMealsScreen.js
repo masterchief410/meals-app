@@ -1,45 +1,56 @@
 import React from "react";
-import { View, Text, StyleSheet, Button } from "react-native";
+import { View, StyleSheet, FlatList } from "react-native";
 
-import { CATEGORIES } from "../data/dummy-data";
+import { CATEGORIES, MEALS } from "../data/dummy-data";
+import CategoryMealGridTile from "../components/CategoryMealsGridTile";
+
 const CategoryMealsScreen = (props) => {
-	const catId = props.navigation.getParam("categoryId");
-	console.log(catId);
-	const selectedCategory = CATEGORIES.find((cat) => cat.id === catId);
-	console.log(selectedCategory);
+    const catId = props.navigation.getParam("categoryId");
+    const selectedCategory = CATEGORIES.find((cat) => cat.id === catId);
 
-	return (
-		<View style={styles.screen}>
-			<Text>{selectedCategory.title}</Text>
-			<Button
-				title="Tap me to go to meal details"
-				onPress={() => {
-					props.navigation.navigate("MealDetail");
-				}}
-			/>
-			<Button
-				title="GoBake"
-				onPress={() => {
-					props.navigation.goBack();
-				}}
-			/>
-		</View>
-	);
+    const displayedMeals = MEALS.filter(
+        (meal) => meal.categoryIds.indexOf(catId) >= 0
+    );
+
+    const renderMealItem = (itemData) => {
+        return (
+            <CategoryMealGridTile
+                item={itemData.item}
+                onSelectMeal={() => {}}
+            />
+        );
+    };
+
+    return (
+        <View style={styles.screen}>
+            <FlatList
+                style={{ width: "100%" }}
+                data={displayedMeals}
+                renderItem={renderMealItem}
+            />
+        </View>
+    );
 };
 
-CategoryMealsScreen.navigationOtions = {
-	headerTitle: {selectedCategory.title},
-	// headerStyle: {
-	// 	backgroundColor: "{selectedCategory.color}",
-	// },
+CategoryMealsScreen.navigationOptions = (navigationData) => {
+    const catId = navigationData.navigation.getParam("categoryId");
+    const selectedCategory = CATEGORIES.find((cat) => cat.id === catId);
+    return {
+        headerTitle: selectedCategory.title,
+        headerStyle: {
+            backgroundColor: selectedCategory.color,
+        },
+        headerTintColor: "black",
+    };
 };
 const styles = StyleSheet.create({
-	screen: {
-		flex: 1,
-		justifyContent: "center",
-		alignItems: "center",
-		backgroundColor: "#ff000088",
-	},
+    screen: {
+        backgroundColor: "#000000",
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
+        width: "100%",
+    },
 });
 
 export default CategoryMealsScreen;
