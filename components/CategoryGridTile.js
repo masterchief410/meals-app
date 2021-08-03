@@ -27,6 +27,7 @@ const CategoryGridTile = (props) => {
                     style={{
                         height: 150,
                         backgroundColor: props.item.color,
+                        opacity: 0.8,
                         justifyContent: "flex-end",
                         alignItems: "flex-end",
                     }}

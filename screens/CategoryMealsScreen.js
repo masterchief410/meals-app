@@ -16,7 +16,12 @@ const CategoryMealsScreen = (props) => {
         return (
             <CategoryMealGridTile
                 item={itemData.item}
-                onSelectMeal={() => {}}
+                onSelectMeal={() =>
+                    props.navigation.navigate({
+                        routeName: "MealDetail",
+                        params: { mealId: itemData.item.id },
+                    })
+                }
             />
         );
     };
@@ -39,6 +44,7 @@ CategoryMealsScreen.navigationOptions = (navigationData) => {
         headerTitle: selectedCategory.title,
         headerStyle: {
             backgroundColor: selectedCategory.color,
+            opacity: 0.8,
         },
         headerTintColor: "black",
     };
