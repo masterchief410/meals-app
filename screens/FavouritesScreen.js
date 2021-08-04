@@ -1,21 +1,21 @@
 import React from "react";
-import { View, Text, StyleSheet } from "react-native";
 
-const FavouritesScreen = () => {
-    return (
-        <View style={styles.screen}>
-            <Text>The Favourites Screen</Text>
-        </View>
-    );
+import { MEALS, FAVOURITES } from "../data/dummy-data";
+import MealList from "../components/MealList";
+
+const FavouritesScreen = (props) => {
+	const displayedMeals = MEALS.filter(
+		(meal) => FAVOURITES.indexOf(meal.id) >= 0
+	);
+
+	return (
+		<MealList
+			listData={displayedMeals}
+			navigation={props.navigation}
+			headerColor={"#222222"}
+			fontColor={"#ffffff"}
+		/>
+	);
 };
-
-const styles = StyleSheet.create({
-    screen: {
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
-        backgroundColor: "#00ff88",
-    },
-});
 
 export default FavouritesScreen;
