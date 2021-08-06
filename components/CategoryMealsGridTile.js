@@ -7,6 +7,7 @@ import {
     StyleSheet,
 } from "react-native";
 import Card from "./Card";
+import { LinearGradient } from "expo-linear-gradient";
 
 import { FontAwesome5 } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
@@ -94,25 +95,27 @@ const CategoryMealGridTile = (props) => {
                 style={{ flex: 1, justifyContent: "center", width: "100%" }}
             >
                 <TouchableNativeFeedback onPress={props.onSelectMeal}>
-                    <Card style={styles.cardStyle}>
-                        <Text style={styles.titleStyle}>
-                            {props.item.title}
-                        </Text>
-                        <View style={styles.iconViewStyle}>
-                            <FontAwesome5
-                                name="hourglass"
-                                size={18}
-                                color="white"
-                            />
-                            <Text style={styles.textStyle}>
-                                {" "}
-                                {props.item.duration} mins{" |"}
+                    <LinearGradient colors={["#00000000", "#222222c0"]}>
+                        <Card style={styles.cardStyle}>
+                            <Text style={styles.titleStyle}>
+                                {props.item.title}
                             </Text>
-                            <Affordability />
-                            <Text style={styles.textStyle}>{"| "}</Text>
-                            <Complexity />
-                        </View>
-                    </Card>
+                            <View style={styles.iconViewStyle}>
+                                <FontAwesome5
+                                    name="hourglass"
+                                    size={18}
+                                    color="white"
+                                />
+                                <Text style={styles.textStyle}>
+                                    {" "}
+                                    {props.item.duration} mins{" |"}
+                                </Text>
+                                <Affordability />
+                                <Text style={styles.textStyle}>{"| "}</Text>
+                                <Complexity />
+                            </View>
+                        </Card>
+                    </LinearGradient>
                 </TouchableNativeFeedback>
             </ImageBackground>
         </View>
@@ -137,7 +140,6 @@ const styles = StyleSheet.create({
         height: 150,
         justifyContent: "flex-end",
         alignItems: "flex-end",
-        backgroundColor: "#00000080",
         width: "100%",
     },
     viewStyle: {

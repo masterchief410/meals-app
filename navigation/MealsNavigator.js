@@ -12,111 +12,122 @@ import FiltersScreen from "../screens/FiltersScreen";
 
 import { Ionicons } from "@expo/vector-icons";
 
+const defStackNavOptions = {
+    headerTintColor: "white",
+    headerTitleAlign: "center",
+    headerStyle: {
+        backgroundColor: "#222222",
+    },
+    headerTitleStyle: {
+        fontFamily: "roboto-light",
+        fontSize: 22,
+    },
+};
+
 const MealsNavigator = createStackNavigator(
-	{
-		Categories: {
-			screen: CategoriesScreen,
-			navigationOptions: {
-				headerTitle: "Meal Categories",
-			},
-		},
-		CategoryMeals: {
-			screen: CategoryMealsScreen,
-		},
-		MealDetail: MealDetailScreen,
-	},
-	{
-		defaultNavigationOptions: {
-			headerTitleAlign: "left",
-			headerTintColor: "white",
-			headerStyle: {
-				backgroundColor: "#222222",
-			},
-			headerTitleStyle: {
-				fontFamily: "roboto-regular",
-			},
-		},
-	}
+    {
+        Categories: {
+            screen: CategoriesScreen,
+            navigationOptions: {
+                headerTitle: "Meal Categories",
+            },
+        },
+        CategoryMeals: {
+            screen: CategoryMealsScreen,
+        },
+        MealDetail: MealDetailScreen,
+    },
+    {
+        defaultNavigationOptions: defStackNavOptions,
+    }
 );
 
 const FavNavigator = createStackNavigator(
-	{
-		Favourites: FavouritesScreen,
-		MealDetail: MealDetailScreen,
-	},
-	{
-		defaultNavigationOptions: {
-			headerTitleAlign: "left",
-			headerTintColor: "white",
-			headerStyle: {
-				backgroundColor: "#222222",
-			},
-			headerTitleStyle: {
-				fontFamily: "roboto-regular",
-			},
-		},
-	}
+    {
+        Favourites: FavouritesScreen,
+        MealDetail: MealDetailScreen,
+    },
+    {
+        defaultNavigationOptions: defStackNavOptions,
+    }
 );
 
 const MealsFavTabNavigator = createBottomTabNavigator(
-	{
-		Meals: MealsNavigator,
-		Favourites: FavNavigator,
-	},
-	{
-		defaultNavigationOptions: ({ navigation }) => ({
-			tabBarIcon: ({ focused, horizontal, tintColor }) => {
-				const { routeName } = navigation.state;
-				let IconComponent = Ionicons;
-				let iconName;
+    {
+        Meals: MealsNavigator,
+        Favourites: FavNavigator,
+    },
 
-				if (routeName === "Meals")
-					iconName = focused ? "fast-food" : "fast-food-outline";
-				else if (routeName === "Favourites")
-					iconName = focused ? "heart" : "heart-outline";
+    {
+        defaultNavigationOptions: ({ navigation }) => ({
+            tabBarIcon: ({ focused, horizontal, tintColor }) => {
+                const { routeName } = navigation.state;
+                let IconComponent = Ionicons;
+                let iconName;
 
-				return (
-					<IconComponent
-						name={iconName}
-						size={23}
-						color={tintColor}
-					/>
-				);
-			},
-		}),
+                if (routeName === "Meals")
+                    iconName = focused ? "fast-food" : "fast-food-outline";
+                else if (routeName === "Favourites")
+                    iconName = focused ? "heart" : "heart-outline";
 
-		tabBarOptions: {
-			inactiveBackgroundColor: "#222222",
-			activeBackgroundColor: "#222222",
-			inactiveTintColor: "#888888",
-			activeTintColor: "#ffffff",
+                return (
+                    <IconComponent
+                        name={iconName}
+                        size={21}
+                        color={tintColor}
+                    />
+                );
+            },
+        }),
 
-			fontFamily: "roboto-regular",
-		},
-	}
+        tabBarOptions: {
+            inactiveBackgroundColor: "#222222",
+            activeBackgroundColor: "#222222",
+            inactiveTintColor: "#888888",
+            activeTintColor: "#ffffff",
+
+            labelStyle: { fontFamily: "roboto-light", fontSize: 11 },
+        },
+    }
 );
 
 const FilterNavigator = createStackNavigator(
-	{
-		Filters: FiltersScreen,
-	},
-	{
-		defaultNavigationOptions: {
-			headerTitle: "Filters",
-			headerTitleAlign: "left",
-			headerTintColor: "white",
-			headerStyle: {
-				backgroundColor: "#222222",
-			},
-			headerTitleStyle: {
-				fontFamily: "roboto-regular",
-			},
-		},
-	}
+    {
+        Filters: FiltersScreen,
+    },
+    {
+        defaultNavigationOptions: defStackNavOptions,
+    }
 );
-const MainNavigator = createDrawerNavigator({
-	MealsFavs: MealsFavTabNavigator,
-	Filters: FilterNavigator,
-});
+const MainNavigator = createDrawerNavigator(
+    {
+        MealsFavs: {
+            screen: MealsFavTabNavigator,
+            navigationOptions: {
+                drawerLabel: "Meals",
+            },
+        },
+        Filters: {
+            screen: FilterNavigator,
+            navigationOptions: {
+                drawerLabel: "Filters",
+            },
+        },
+    },
+    {
+        contentOptions: {
+            activeBackgroundColor: "#000000",
+            inactiveTintColor: "#888888",
+            activeTintColor: "#ffffff",
+            labelStyle: {
+                fontSize: 20,
+                fontFamily: "roboto-light",
+                fontWeight: "normal",
+            },
+            itemsContainerStyle: { marginTop: 40 },
+        },
+        drawerBackgroundColor: "#222222",
+    }
+);
 
 export default createAppContainer(MainNavigator);
